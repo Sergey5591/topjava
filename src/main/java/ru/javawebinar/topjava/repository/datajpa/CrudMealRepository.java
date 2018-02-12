@@ -12,7 +12,7 @@ import java.util.List;
 public interface CrudMealRepository extends JpaRepository<Meal, Integer> {
 
     @Transactional
-    Meal save (Meal meal, int userId);
+    Meal save (Meal item);
 
     Meal findByIdAndUserId(int id, int userId);
 
