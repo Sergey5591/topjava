@@ -18,14 +18,14 @@ import static ru.javawebinar.topjava.util.DateTimeUtil.parseLocalTime;
 @RestController
 @RequestMapping(MealRestController.REST_URL)
 public class MealRestController extends AbstractMealController {
-    static final String REST_URL = "/rest/meals";
+    static final String REST_URL = "/rest/profile/meals";
 
-    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{id}")
     public Meal get(@PathVariable("id") int id){
         return super.get(id);
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping
     public List<MealWithExceed> getAll(){
         return super.getAll();
     }
@@ -40,7 +40,7 @@ public class MealRestController extends AbstractMealController {
         super.update(meal, id);
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Meal> createWithLocation(@RequestBody Meal meal){
         Meal created = super.create(meal);
 
@@ -53,15 +53,11 @@ public class MealRestController extends AbstractMealController {
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
-    @GetMapping(value = "/between", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<MealWithExceed> getBetween(@RequestParam("startDate") String startDate,
-                                           @RequestParam("startTime") String startTime,
-                                           @RequestParam("endDate") String endDate,
-                                           @RequestParam("endTime") String endTime){
-        LocalDate start = parseLocalDate(startDate);
-        LocalDate end = parseLocalDate(endDate);
-        LocalTime startT = parseLocalTime(startTime);
-        LocalTime endT = parseLocalTime(endTime);
-        return super.getBetween(start, startT, end, endT);
+    @GetMapping(value = "/filter")
+    public List<MealWithExceed> getBetween(@RequestParam(value = "startDate", required = false) LocalDate startDate,
+                                           @RequestParam(value = "startTime", required = false) LocalTime startTime,
+                                           @RequestParam(value = "endDate", required = false) LocalDate endDate,
+                                           @RequestParam(value = "endTime", required = false) LocalTime endTime){
+        return super.getBetween(startDate, startTime, endDate, endTime);
     }
 }

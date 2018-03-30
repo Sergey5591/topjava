@@ -53,10 +53,7 @@ abstract public class AbstractControllerTest {
 
     @PostConstruct
     private void postConstruct() {
-        mockMvc = MockMvcBuilders
-                .webAppContextSetup(webApplicationContext)
-                .addFilter(CHARACTER_ENCODING_FILTER)
-                .build();
+
     }
 
     @Before
@@ -65,5 +62,9 @@ abstract public class AbstractControllerTest {
         if (jpaUtil != null) {
             jpaUtil.clear2ndLevelHibernateCache();
         }
+        mockMvc = MockMvcBuilders
+                .webAppContextSetup(webApplicationContext)
+                .addFilter(CHARACTER_ENCODING_FILTER)
+                .build();
     }
 }
